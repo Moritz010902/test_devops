@@ -1,4 +1,4 @@
-name: Berechne nächste Version
+name: Detect next version
 
 on:
   workflow_call:
@@ -9,15 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repository auschecken
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Node.js einrichten
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'  # LTS Version
+          node-version: '22'  # LTS version
 
-      - name: Abhängigkeiten installieren
+      - name: Install dependencies
         run:
           npm install --save-dev semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+
+      
       
