@@ -4,7 +4,8 @@ module.exports = {
     [
       "@semantic-release/commit-analyzer",
       {
-        "preset": "conventionalcommits"
+        "preset": "conventionalcommits",
+        "releaseRules": []
       }
     ],
     "@semantic-release/release-notes-generator",
