@@ -38,7 +38,7 @@ jobs:
         with:
           tag_name: v${{ steps.semver.outputs.new_release_version }}
           name: v${{ steps.semver.outputs.new_release_version }}
-          body: ${{ jobs.detect_version.outputs.RELEASE_NOTES }}
+          body: ${{ steps.semver.outputs.RELEASE_NOTES }}
           #draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
