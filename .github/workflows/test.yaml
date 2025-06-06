@@ -1,5 +1,8 @@
 name: Test Aufruf von Semantic Version
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
 
@@ -8,6 +11,7 @@ jobs:
     uses: Moritz010902/test_devops/.github/workflows/semantic-version.yaml@main
 
   test_call_semantic_version:
+    needs: semver
     runs-on: ubuntu-latest
     steps:
       - name: Check env variables
