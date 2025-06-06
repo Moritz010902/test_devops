@@ -1,4 +1,4 @@
-name: Detect next version
+name: Detect next version and generate release notes
 
 on:
   workflow_call:

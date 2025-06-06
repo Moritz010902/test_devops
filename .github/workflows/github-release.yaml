@@ -26,7 +26,7 @@ jobs:
           tag_name: v${{ inputs.VERSION }}
           name: v${{ inputs.VERSION }}
           body: ${{ inputs.RELEASE_NOTES }}
-          # true if the version is a new major release (e.g., 2.0.0)
+          # true if the version leads to a new major release (e.g., 2.0.0)
           draft: ${{ endsWith(inputs.VERSION, '.0.0') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
