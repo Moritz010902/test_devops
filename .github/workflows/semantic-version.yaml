@@ -15,30 +15,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '22'  # LTS version
-
-      # - name: Install dependencies
-      #   run:
-      #     npm install --save-dev semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-
-      # - name: Nächste Version im Dry Run ermitteln
-      #   id: version
-      #   run: |
-      #     OUTPUT=$(
-      #       npx semantic-release --plugins ['@semantic-release/commit-analyzer', '@semantic-release/release-notes-generator'] --no-ci --dry-run
-      #     )
-      #     VERSION=$(echo "$OUTPUT" | grep "The next version is" | awk '{print $5}')
-      #     echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      # - name: Nächste Version ausgeben
-      #   run: |
-      #     echo ">> Die nächste Version ist: ${{ env.VERSION }} <<"
-
-      - name: Semantic Release (Dry-Run ohne npm)
-        id: semantic
+      - name: Detect next version and generate release notes
+        id: semver
         uses: cycjimmy/semantic-release-action@v4
         with:
           dry_run: true
@@ -46,13 +24,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Versionsnummer und Release-Notes ausgeben
+      - name: Versionsnummer und Release-Notes in Variablen speichern
         run: |
-          echo "Versionsnummer: ${{ steps.semantic.outputs.new_release_version }}"
-          echo "Major:            ${{ steps.semantic.outputs.new_release_major_version }}"
-          echo "Minor:            ${{ steps.semantic.outputs.new_release_minor_version }}"
-          echo "Patch:            ${{ steps.semantic.outputs.new_release_patch_version }}"
-          echo "Release-Notes:"
-          echo "${{ steps.semantic.outputs.new_release_notes }}"
+          echo "VERSION=${{ steps.semver.outputs.new_release_version }}" >> $GITHUB_ENV
+          echo "RELEASE_NOTES=${{ steps.semver.outputs.new_release_notes }}" >> $GITHUB_ENV
       
-      
+      - name: Draft-Release erstellen
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: ${{ env.VERSION }}
+          body: ${{ env.RELEASE_NOTES }}
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
