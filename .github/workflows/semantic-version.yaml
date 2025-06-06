@@ -10,26 +10,45 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '22'  # LTS version
+
+      # - name: Install dependencies
+      #   run:
+      #     npm install --save-dev semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+
+      # - name: Nächste Version im Dry Run ermitteln
+      #   id: version
+      #   run: |
+      #     OUTPUT=$(
+      #       npx semantic-release --plugins ['@semantic-release/commit-analyzer', '@semantic-release/release-notes-generator'] --no-ci --dry-run
+      #     )
+      #     VERSION=$(echo "$OUTPUT" | grep "The next version is" | awk '{print $5}')
+      #     echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      # - name: Nächste Version ausgeben
+      #   run: |
+      #     echo ">> Die nächste Version ist: ${{ env.VERSION }} <<"
+
+      - name: Semantic Release (Dry-Run)
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v4
         with:
-          node-version: '22'  # LTS version
+          dry_run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run:
-          npm install --save-dev semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-
-      - name: Nächste Version im Dry Run ermitteln
-        id: version
+      - name: Versionsnummer und Release-Notes ausgeben
         run: |
-          OUTPUT=$(npx semantic-release --no-ci --dry-run)
-          VERSION=$(echo "$OUTPUT" | grep "The next version is" | awk '{print $5}')
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Nächste Version ausgeben
-        run: |
-          echo ">> Die nächste Version ist: ${{ env.VERSION }} <<"
+          echo "Versionsnummer: ${{ steps.semantic.outputs.new_release_version }}"
+          echo "Major:            ${{ steps.semantic.outputs.new_release_major_version }}"
+          echo "Minor:            ${{ steps.semantic.outputs.new_release_minor_version }}"
+          echo "Patch:            ${{ steps.semantic.outputs.new_release_patch_version }}"
+          echo "Release-Notes:"
+          echo "${{ steps.semantic.outputs.new_release_notes }}"
       
       
