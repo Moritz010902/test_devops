@@ -1,0 +1,20 @@
+name: Test Aufruf von Semantic Version
+
+on:
+  workflow_call:
+
+jobs:
+  test_call_semantic_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Call semantic version workflow
+        uses: ./.github/workflows/semantic-version.yaml
+
+      - name: Check env variables
+        run: |
+          echo "VERSION: ${{ env.VERSION }}"
+          echo "RELEASE_NOTES: ${{ env.RELEASE_NOTES }}"
