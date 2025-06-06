@@ -21,5 +21,15 @@ jobs:
         run:
           npm install --save-dev semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
 
+      - name: Nächste Version im Dry Run ermitteln
+        id: version
+        run: |
+          OUTPUT=$(npx semantic-release --no-ci --dry-run)
+          VERSION=$(echo "$OUTPUT" | grep "The next version is" | awk '{print $5}')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Nächste Version ausgeben
+        run: |
+          echo ">> Die nächste Version ist: ${{ env.VERSION }} <<"
       
       
