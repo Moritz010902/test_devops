@@ -5,7 +5,11 @@ permissions:
 
 on:
   workflow_call:
-  workflow_dispatch:
+    outputs:
+      VERSION:
+        value: ${{ jobs.detect_version.outputs.VERSION}}
+      RELEASE_NOTES:
+        value: ${{ jobs.detect_version.outputs.RELEASE_NOTES }}
 
 jobs:
   detect_version:
@@ -27,12 +31,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ steps.semver.outputs.new_release_version }}
-          name: v${{ steps.semver.outputs.new_release_version }}
-          body: ${{ steps.semver.outputs.RELEASE_NOTES }}
-          #draft: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Create release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: v${{ steps.semver.outputs.new_release_version }}
+      #     name: v${{ steps.semver.outputs.new_release_version }}
+      #     body: ${{ steps.semver.outputs.RELEASE_NOTES }}
+      #     #draft: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
