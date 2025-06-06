@@ -30,13 +30,20 @@ jobs:
           dry_run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      # - name: Create release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     tag_name: v${{ steps.semver.outputs.new_release_version }}
-      #     name: v${{ steps.semver.outputs.new_release_version }}
-      #     body: ${{ steps.semver.outputs.RELEASE_NOTES }}
-      #     #draft: true
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish_gh_release:
+    needs: detect_version
+    runs-on: ubuntu-latest
+    # run only if a new version is detected
+    if: ${{ needs.detect_version.outputs.VERSION != '' && needs.detect_version.outputs.VERSION != '0.0.0' }}
+
+    steps:
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.semver.outputs.new_release_version }}
+          name: v${{ steps.semver.outputs.new_release_version }}
+          body: ${{ steps.semver.outputs.RELEASE_NOTES }}
+          #draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
