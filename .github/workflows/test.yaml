@@ -4,16 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  semver:
+    uses: Moritz010902/test_devops/.github/workflows/semantic-version.yaml@main
+
   test_call_semantic_version:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Call semantic version workflow
-        uses: ./.github/workflows/semantic-version.yaml
-
       - name: Check env variables
         run: |
           echo "VERSION: ${{ env.VERSION }}"
