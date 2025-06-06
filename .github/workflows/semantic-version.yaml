@@ -34,9 +34,9 @@ jobs:
       - name: Draft-Release erstellen
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
           name: ${{ env.VERSION }}
           body: ${{ env.RELEASE_NOTES }}
-          draft: true
+          #draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
