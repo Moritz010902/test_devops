@@ -7,9 +7,19 @@ on:
   workflow_call:
   workflow_dispatch:
 
+outputs:
+  VERSION:
+    value: ${{ jobs.detect_version.outputs.VERSION}}
+  RELEASE_NOTES:
+    value: ${{ jobs.detect_version.outputs.RELEASE_NOTES }}
+
 jobs:
   detect_version:
     runs-on: ubuntu-latest
+
+    outputs:
+      VERSION: ${{ steps.semver.outputs.new_release_version }}
+      RELEASE_NOTES: ${{ steps.semver.outputs.new_release_notes }}
 
     steps:
       - name: Checkout repository
@@ -20,23 +30,15 @@ jobs:
         uses: cycjimmy/semantic-release-action@v4
         with:
           dry_run: true
-          working_directory: ./.github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Versionsnummer und Release-Notes in Variablen speichern
-        run: |
-          echo "VERSION=${{ steps.semver.outputs.new_release_version }}" >> $GITHUB_ENV
-          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-          echo "${{ steps.semver.outputs.new_release_notes }}" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
       
-      - name: Draft-Release erstellen
+      - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }}
-          body: ${{ env.RELEASE_NOTES }}
+          tag_name: v${{ steps.semver.outputs.new_release_version }}
+          name: v${{ steps.semver.outputs.new_release_version }}
+          body: ${{ jobs.detect_version.outputs.RELEASE_NOTES }}
           #draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
