@@ -27,7 +27,9 @@ jobs:
       - name: Versionsnummer und Release-Notes in Variablen speichern
         run: |
           echo "VERSION=${{ steps.semver.outputs.new_release_version }}" >> $GITHUB_ENV
-          echo "RELEASE_NOTES=${{ steps.semver.outputs.new_release_notes }}" >> $GITHUB_ENV
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "${{ steps.semver.outputs.new_release_notes }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       
       - name: Draft-Release erstellen
         uses: softprops/action-gh-release@v1
