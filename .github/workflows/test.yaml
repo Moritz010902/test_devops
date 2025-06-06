@@ -1,7 +1,7 @@
 name: Test Aufruf von Semantic Version
 
 on:
-  workflow_call:
+  workflow_dispatch:
 
 jobs:
   test_call_semantic_version:
