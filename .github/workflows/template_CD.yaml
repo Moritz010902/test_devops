@@ -15,7 +15,7 @@ jobs:
     uses: Moritz010902/test_devops/.github/workflows/semver-and-release-notes.yaml@main
   gh_release:
     # run only if a new version is detected
-    if: ${{ inputs.VERSION != '' && inputs.VERSION != '0.0.0' }}
+    if: ${{ needs.semver.outputs.VERSION != '' && needs.semver.outputs.VERSION != '0.0.0' }}
     uses: Moritz010902/test_devops/.github/workflows/github-release.yaml@main
     needs: semver
     with:
