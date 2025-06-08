@@ -45,6 +45,13 @@ jobs:
               draft: false
             });
 
+  test_output:
+    runs-on: ubuntu-latest
+    needs: publish_draft_major
+    steps:
+      - name: Test output
+        run: echo "Draft release published with version: ${{ needs.publish_draft_major.outputs.VERSION }}"
+
   docker_build_and_push:
     uses: Moritz010902/test_devops/.github/workflows/docker-build-and-push.yaml@main
     needs: publish_draft_major
