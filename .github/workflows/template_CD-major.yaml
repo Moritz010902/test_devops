@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      VERSION: ${{ steps.get_draft.outputs.tag_name }}
+      VERSION: ${{ steps.clean_version.outputs.version }}
 
     steps:
       - name: Get latest draft release
@@ -44,6 +44,11 @@ jobs:
               release_id: releaseId,
               draft: false
             });
+
+      - name: Remove 'v' prefix of tag_name
+        id: clean_version
+        run: |
+          VERSION=${{ steps.get_draft.outputs.tag_name }}; echo "version=${VERSION#v}" >> $GITHUB_OUTPUT
 
   test_output:
     runs-on: ubuntu-latest
