@@ -55,10 +55,10 @@ jobs:
     needs: publish_draft_major
     steps:
       - name: Test output
-        run: echo "Draft release published with version ${{ startsWith(needs.publish_draft_major.outputs.VERSION, 'v') && substring(needs.publish_draft_major.outputs.VERSION, 1, 100) || needs.publish_draft_major.outputs.VERSION }}"
+        run: echo "Draft release published with version ${{ needs.publish_draft_major.outputs.VERSION }}"
 
   docker_build_and_push:
     uses: Moritz010902/test_devops/.github/workflows/docker-build-and-push.yaml@main
     needs: publish_draft_major
     with:
-      version: ${{ startsWith(needs.publish_draft_major.outputs.VERSION, 'v') && substring(needs.publish_draft_major.outputs.VERSION, 1, 100) || needs.publish_draft_major.outputs.VERSION }}
+      version: ${{ needs.publish_draft_major.outputs.VERSION }}
