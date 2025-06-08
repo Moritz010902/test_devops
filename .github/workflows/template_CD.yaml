@@ -13,6 +13,7 @@ on:
 jobs:
   semver:
     uses: Moritz010902/test_devops/.github/workflows/semver-and-release-notes.yaml@main
+    
   gh_release:
     # run only if a new version is detected
     if: ${{ needs.semver.outputs.VERSION != '' && needs.semver.outputs.VERSION != '0.0.0' }}
@@ -21,6 +22,7 @@ jobs:
     with:
       VERSION: ${{ needs.semver.outputs.VERSION }}
       RELEASE_NOTES: ${{ needs.semver.outputs.RELEASE_NOTES }}
+
   docker_build_and_push:
     # run only if a new version is detected and it is not a major version
     if: ${{ needs.semver.outputs.VERSION != '' && needs.semver.outputs.VERSION != '0.0.0' && !endsWith(needs.semver.outputs.VERSION, '.0.0') }}

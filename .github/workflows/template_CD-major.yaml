@@ -7,19 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish_draft:
+  publish_draft_release:
     uses: Moritz010902/test_devops/.github/workflows/github-publish-draft-release.yaml@main
-
-  test_version_output:
-    runs-on: ubuntu-latest
-    needs: publish_draft
-    steps:
-      - name: Check version output
-        run: |
-          echo ${{ needs.publish_draft.outputs.VERSION }}
 
   docker_build_and_push:
     uses: Moritz010902/test_devops/.github/workflows/docker-build-and-push.yaml@main
-    needs: publish_draft
+    needs: publish_draft_release
     with:
-      version: ${{ needs.publish_draft.outputs.VERSION }}
+      version: ${{ needs.publish_draft_release.outputs.VERSION }}
