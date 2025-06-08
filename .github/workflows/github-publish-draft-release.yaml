@@ -7,7 +7,7 @@ on:
   workflow_call:
     outputs:
       VERSION:
-        value: ${{ steps.clean_version.outputs.version }}
+        value: ${{ jobs.publish_draft.outputs.VERSION }}
 
 jobs:
   publish_draft:
