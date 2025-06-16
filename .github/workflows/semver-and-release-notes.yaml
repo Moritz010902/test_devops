@@ -29,8 +29,20 @@ jobs:
           path: release-config
           ref: main
 
-      - name: Zeige aktuelles Working Directory
-        run: pwd
+      - name: Debug Struktur
+        run: |
+          echo "== PWD =="
+          pwd
+          echo "== Root Inhalt =="
+          ls -la
+          echo "== Repo Inhalt =="
+          ls -la repo
+          echo "== Release Config Inhalt =="
+          ls -la release-config
+
+      - name: Kopiere Release Config
+        run: cp release-config/release.config.js repo/
+
 
       - name: Copy release config into target repo
         run: cp ../release-config/release.config.js .
