@@ -11,3 +11,11 @@ on:
 jobs:
   validate-commits:
     uses: Moritz010902/test_devops/.github/workflows/validate-commit-msg.yaml@main
+  another-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run another job step
+        run: echo "This is another job step that runs after commit validation."
