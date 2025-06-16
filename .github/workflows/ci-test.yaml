@@ -1,0 +1,13 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-commits:
+    uses: Moritz010902/test_devops/.github/workflows/validate-commit-msg.yml
