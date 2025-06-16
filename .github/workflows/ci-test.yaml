@@ -10,4 +10,4 @@ on:
 
 jobs:
   validate-commits:
-    uses: Moritz010902/test_devops/.github/workflows/validate-commit-msg.yml
+    uses: Moritz010902/test_devops/.github/workflows/validate-commit-msg.yml@main
