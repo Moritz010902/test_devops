@@ -29,6 +29,9 @@ jobs:
           path: release-config
           ref: main
 
+      - name: Zeige aktuelles Working Directory
+        run: pwd
+
       - name: Copy release config into target repo
         run: cp ../release-config/release.config.js .
         working-directory: repo
