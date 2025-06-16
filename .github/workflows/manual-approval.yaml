@@ -13,10 +13,14 @@ on:
 jobs:
   approval:
     runs-on: ubuntu-latest
-    # run only if a new version is detected and it is not a major version
-    if: ${{ inputs.VERSION != '' && inputs.VERSION != '0.0.0' && endsWith(inputs.VERSION, '.0.0') }}
     steps:
+      - name: Skip approval if not needed
+        if: ${{ !(inputs.VERSION != '' && inputs.VERSION != '0.0.0' && endsWith(inputs.VERSION, '.0.0') ) }}
+        run: echo "No approval needed"
+
       - name: Wait for manual approval
+        # run only if a new version is detected and it is not a major version
+        if: ${{ inputs.VERSION != '' && inputs.VERSION != '0.0.0' && endsWith(inputs.VERSION, '.0.0') }}
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
