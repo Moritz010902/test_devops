@@ -13,10 +13,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Checkout commitlint config
+        uses: actions/checkout@v4
+        with:
+          repository: Moritz010902/test_devops
+          path: commitlint-config
+          ref: main
+
+      - name: Copy commitlint config
+        run: cp commitlint-config/commitlint.config.js ./
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          
       - name: Install commitlint
         run: npm install -D @commitlint/cli @commitlint/config-conventional
 
