@@ -39,11 +39,13 @@ jobs:
           
       - name: Install dependencies
         run: npm install --save-dev conventional-changelog-conventionalcommits
+        working-directory: repo
 
       - name: Detect next version and generate release notes
         id: semver
         uses: cycjimmy/semantic-release-action@v4
         with:
           dry_run: true
+          working_directory: repo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
