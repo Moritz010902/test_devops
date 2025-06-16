@@ -28,7 +28,7 @@ jobs:
           ref: main
 
       - name: Move config into root
-        run: cp central-config/release.config.js ./
+        run: cp release-config/release.config.js ./
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
