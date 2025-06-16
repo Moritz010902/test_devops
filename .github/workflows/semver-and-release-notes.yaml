@@ -27,6 +27,9 @@ jobs:
           path: release-config
           ref: main
 
+      - name: Move config into root
+        run: cp central-config/release.config.js ./
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -40,6 +43,5 @@ jobs:
         uses: cycjimmy/semantic-release-action@v4
         with:
           dry_run: true
-          config_file: release-config/semantic-release.config.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
