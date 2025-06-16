@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Checkout central release config
+      - name: Checkout release config
         uses: actions/checkout@v4
         with:
           repository: Moritz010902/test_devops
