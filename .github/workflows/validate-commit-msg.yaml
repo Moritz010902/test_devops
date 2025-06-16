@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  commitlint:
+  validate commit messages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          
+
       - name: Install commitlint
         run: npm install -D @commitlint/cli @commitlint/config-conventional
 
