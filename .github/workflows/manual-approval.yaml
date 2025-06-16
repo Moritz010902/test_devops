@@ -14,7 +14,7 @@ jobs:
   approval:
     runs-on: ubuntu-latest
     # run only if a new version is detected and it is not a major version
-    if: ${{ inputs.VERSION != '' && inputs.VERSION != '0.0.0' && !endsWith(inputs.VERSION, '.0.0') }}
+    if: ${{ inputs.VERSION != '' && inputs.VERSION != '0.0.0' && endsWith(inputs.VERSION, '.0.0') }}
     steps:
       - name: Wait for manual approval
         uses: trstringer/manual-approval@v1
