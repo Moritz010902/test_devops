@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  validate commit messages:
+  validate_commit_messages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
