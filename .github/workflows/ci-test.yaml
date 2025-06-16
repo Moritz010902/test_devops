@@ -17,5 +17,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run another job step 
+      - name: Run another job step
         run: echo "This is another job step that runs after commit validation."
