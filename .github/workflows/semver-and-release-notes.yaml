@@ -29,8 +29,9 @@ jobs:
           path: release-config
           ref: main
 
-      - name: Move config into root
-        run: cp release-config/release.config.js repo/
+      - name: Copy release config into target repo
+        run: cp ../release-config/release.config.js .
+        working-directory: repo
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
